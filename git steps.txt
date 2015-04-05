@@ -1,0 +1,14 @@
+Para subir los cambios a git:
+
+	1- git add .
+	2- git commit -m "su mensaje e.g. añadi una nueva vista"
+	3- git push origin master
+	
+Para bajar los cambios de git:
+
+	1- git fetch
+	2- git merge origin/master
+	
+Nota: SI les da conflictos al bajar borran manualmente el private.xml en la carpeta nbcproject 
+      y vueven a hacer el git fetch y git merge origin/master.
+	  
