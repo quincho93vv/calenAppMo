@@ -2,7 +2,11 @@ package Modelo;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Observable;
@@ -66,6 +70,23 @@ public class DAO extends Observable {
             System.out.println(ex.getMessage());
         }
         return a;
+    }
+
+    public Usuario getUsuario(String nick, String pass) {
+        Usuario u = null;
+        List<Usuario> l = null;
+        try {
+            QueryBuilder<Usuario, String> queryBuilder = daoUsuario.queryBuilder();
+            Where where = queryBuilder.where();
+            where.eq("nick", nick);
+            where.and();
+            where.eq("pass", pass);
+            l = queryBuilder.query();
+            u = !l.isEmpty() ? l.get(0) : null;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return u;
     }
     
 }

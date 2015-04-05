@@ -1,8 +1,10 @@
 package Vista;
 
+import Modelo.DAO;
+
 public class Vista extends javax.swing.JFrame {
 
-    public Vista() {
+    public Vista(DAO dao) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -13,6 +15,7 @@ public class Vista extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Calendar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -49,7 +52,7 @@ public class Vista extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vista().setVisible(true);
+                new Vista(new DAO()).setVisible(true);
             }
         });
     }
