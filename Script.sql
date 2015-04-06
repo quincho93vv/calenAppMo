@@ -17,6 +17,7 @@ Create Table Usuarios(
 Create Table Actividades(
 	nombre varchar(30),
 	fecha date,
+	hora timestamp,
 	detalle varchar(200),
 	tipo int,
 	usuario varchar(30),
@@ -24,4 +25,3 @@ Create Table Actividades(
 	Constraint FKActividad foreign key(usuario) references Usuarios(nick)
 );
 
-ALTER TABLE actividades MODIFY hora timestamp;

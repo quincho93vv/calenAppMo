@@ -74,7 +74,15 @@ public class Actividad {
 
     @Override
     public String toString() {
-        return "Actividad{" + "nombre=" + nombre + ", fecha=" + fecha + ", detalle=" + detalle + ", tipo=" + tipo + ", user=" + user + ", hora=" + hora.getTime() + '}';
+        return "Actividad{" + "nombre=" + nombre + ", fecha=" + fecha + ", detalle=" + detalle + ", tipo=" + tipo + ", user=" + getUser() + ", hora=" + hora.getTime() + '}';
+    }
+
+    public Usuario getUser() {
+        return user;
+    }
+
+    public void setUser(Usuario user) {
+        this.user = user;
     }
     
 

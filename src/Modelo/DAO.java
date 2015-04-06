@@ -71,10 +71,15 @@ public class DAO extends Observable {
         return a;
     }
     
-    public List<Actividad> getActividadFecha(Date fecha) {
+    public List<Actividad> getActividadFecha(String nick, Date fecha) {
         List<Actividad> l = null;
         try {
-            l = daoActividad.queryForEq("fecha", fecha);
+            QueryBuilder<Actividad, String> queryBuilder = daoActividad.queryBuilder();
+            Where where = queryBuilder.where();
+            where.eq("usuario", nick);
+            where.and();
+            where.eq("fecha", fecha);
+            l = queryBuilder.query();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
