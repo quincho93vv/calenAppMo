@@ -6,12 +6,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Vista extends javax.swing.JFrame {
-
+    
+    private DAO dao=null;
     public Vista(DAO dao) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        ActividadesDia actividades = new ActividadesDia(dao);
+        this.dao=dao;        
     }
 
     @SuppressWarnings("unchecked")
@@ -19,13 +20,13 @@ public class Vista extends javax.swing.JFrame {
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        panel_actividades = new javax.swing.JPanel();
+        panel_calendario = new javax.swing.JPanel();
         btn_mes_less = new javax.swing.JButton();
         btn_mes_plus = new javax.swing.JButton();
         label_mes_anyo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_calendar = new javax.swing.JTable();
         btn_anyo_less = new javax.swing.JButton();
         btn_anyo_plus = new javax.swing.JButton();
 
@@ -34,18 +35,18 @@ public class Vista extends javax.swing.JFrame {
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panel_actividadesLayout = new javax.swing.GroupLayout(panel_actividades);
+        panel_actividades.setLayout(panel_actividadesLayout);
+        panel_actividadesLayout.setHorizontalGroup(
+            panel_actividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 706, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panel_actividadesLayout.setVerticalGroup(
+            panel_actividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 453, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Actividades pendientes", jPanel1);
+        jTabbedPane1.addTab("Actividades pendientes", panel_actividades);
 
         btn_mes_less.setText("<");
         btn_mes_less.addActionListener(new java.awt.event.ActionListener() {
@@ -63,11 +64,16 @@ public class Vista extends javax.swing.JFrame {
 
         label_mes_anyo.setText("jLabel1");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
-        jTable1.setDragEnabled(false);
-        jTable1.setGridColor(Color.black);
-        jTable1.setShowGrid(true);
-        jScrollPane1.setViewportView(jTable1);
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setDragEnabled(false);
+        table_calendar.setGridColor(Color.black);
+        table_calendar.setShowGrid(true);
+        table_calendar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_calendarMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_calendar);
 
         btn_anyo_less.setText("<<");
         btn_anyo_less.addActionListener(new java.awt.event.ActionListener() {
@@ -83,11 +89,11 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout panel_calendarioLayout = new javax.swing.GroupLayout(panel_calendario);
+        panel_calendario.setLayout(panel_calendarioLayout);
+        panel_calendarioLayout.setHorizontalGroup(
+            panel_calendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_calendarioLayout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(btn_anyo_less)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -99,16 +105,16 @@ public class Vista extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_anyo_plus)
                 .addGap(97, 97, 97))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(panel_calendarioLayout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(131, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        panel_calendarioLayout.setVerticalGroup(
+            panel_calendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panel_calendarioLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panel_calendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_mes_less)
                     .addComponent(btn_mes_plus)
                     .addComponent(label_mes_anyo)
@@ -119,7 +125,7 @@ public class Vista extends javax.swing.JFrame {
                 .addContainerGap(145, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Calendario", jPanel2);
+        jTabbedPane1.addTab("Calendario", panel_calendario);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,26 +146,40 @@ public class Vista extends javax.swing.JFrame {
     private void btn_mes_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_plusActionPerformed
         // TODO add your handling code here:
         mes++;
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_mes_plusActionPerformed
 
     private void btn_anyo_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_lessActionPerformed
         // TODO add your handling code here:
         annyo--;
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_anyo_lessActionPerformed
 
     private void btn_mes_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_lessActionPerformed
         // TODO add your handling code here:
         mes--;
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_mes_lessActionPerformed
 
     private void btn_anyo_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_plusActionPerformed
         // TODO add your handling code here:
         annyo++;
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_anyo_plusActionPerformed
+
+    private void table_calendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_calendarMouseClicked
+        // TODO add your handling code here:
+        String obj=null;
+        if (evt.getClickCount() == 1) {
+            final javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
+            final int row = target.getSelectedRow();
+            final int column = target.getSelectedColumn();
+            obj = (String)target.getValueAt(row, column);
+        }
+        System.out.println("Pressed "+obj);
+        String date = obj + " de " + meses[mes] + " de " + annyo;
+        ActividadesDia actividades = new ActividadesDia(dao, date);
+    }//GEN-LAST:event_table_calendarMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -251,11 +271,11 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton btn_anyo_plus;
     private javax.swing.JButton btn_mes_less;
     private javax.swing.JButton btn_mes_plus;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel label_mes_anyo;
+    private javax.swing.JPanel panel_actividades;
+    private javax.swing.JPanel panel_calendario;
+    private javax.swing.JTable table_calendar;
     // End of variables declaration//GEN-END:variables
 }

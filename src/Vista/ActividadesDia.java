@@ -7,6 +7,7 @@
 package Vista;
 
 import Modelo.DAO;
+import java.util.Calendar;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -16,12 +17,14 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class ActividadesDia extends javax.swing.JFrame {
 
     private DAO dao;
+    private String fecha;
     /**
      * Creates new form ActividadesDia
      */
-    public ActividadesDia(DAO dao) {
+    public ActividadesDia(DAO dao, String fecha) {
         initComponents();
         this.dao = dao;
+        this.fecha=fecha;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -79,7 +82,7 @@ public class ActividadesDia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        AgregarActividad agregar  = new AgregarActividad(dao);
+        AgregarActividad agregar  = new AgregarActividad(dao,fecha);
     }//GEN-LAST:event_jButton1MouseClicked
 
    

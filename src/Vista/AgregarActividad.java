@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Vista;
 
-import Modelo.Actividad;
 import Modelo.DAO;
-import java.sql.Date;
+import java.util.Calendar;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -18,15 +16,19 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class AgregarActividad extends javax.swing.JFrame {
 
     private DAO dao;
+    private String fecha;
+
     /**
      * Creates new form AgregarActividad
      */
-    public AgregarActividad(DAO dao) {
-        initComponents();
+    public AgregarActividad(DAO dao, String fecha) {
+        this.dao = dao;
+        this.fecha = fecha;
+        initComponents();        
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.combo_recordar.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"Diariamente", "Mensualmente", "Anualmente"}));
+        this.combo_recordar.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Diariamente", "Mensualmente", "Anualmente"}));
     }
 
     /**
@@ -41,7 +43,6 @@ public class AgregarActividad extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        input_fecha = new javax.swing.JTextField();
         input_nombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -50,6 +51,7 @@ public class AgregarActividad extends javax.swing.JFrame {
         combo_recordar = new javax.swing.JComboBox();
         btn_agregar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        lbl_fecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,7 +92,6 @@ public class AgregarActividad extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(input_fecha)
                             .addComponent(input_nombre)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                             .addComponent(combo_recordar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -113,9 +114,7 @@ public class AgregarActividad extends javax.swing.JFrame {
                 .addComponent(input_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(input_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(49, 49, 49)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -128,11 +127,16 @@ public class AgregarActividad extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lbl_fecha.setText(fecha);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 706, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(252, 252, 252)
+                .addComponent(lbl_fecha)
+                .addContainerGap(388, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(43, 43, 43)
@@ -141,7 +145,10 @@ public class AgregarActividad extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 475, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(lbl_fecha)
+                .addContainerGap(306, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -152,26 +159,30 @@ public class AgregarActividad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarMouseClicked
-        String nombre  = input_nombre.getText();
-       // Date fecha = new Date(input_fecha.getText());
+        String nombre = input_nombre.getText();
+        // Date fecha = new Date(input_fecha.getText());
         String detalle = input_detalle.getText();
-        String combo   = this.combo_recordar.getSelectedItem().toString();
+        String combo = this.combo_recordar.getSelectedItem().toString();
         int recordatorio = 0;
-        switch(combo){
-            case "Diariamente" : recordatorio = 1;break;
-            case "Mensualmente": recordatorio = 2;break;
-            case "Anualmente"  : recordatorio = 3;break;
+        switch (combo) {
+            case "Diariamente":
+                recordatorio = 1;
+                break;
+            case "Mensualmente":
+                recordatorio = 2;
+                break;
+            case "Anualmente":
+                recordatorio = 3;
+                break;
         }
         //new Actividad(nombre,fecha,detalle,recordatorio);
     }//GEN-LAST:event_btn_agregarMouseClicked
-
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_agregar;
     private javax.swing.JComboBox combo_recordar;
     private javax.swing.JTextArea input_detalle;
-    private javax.swing.JTextField input_fecha;
     private javax.swing.JTextField input_nombre;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -180,5 +191,6 @@ public class AgregarActividad extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_fecha;
     // End of variables declaration//GEN-END:variables
 }

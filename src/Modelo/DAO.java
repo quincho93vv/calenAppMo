@@ -2,9 +2,7 @@ package Modelo;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
-import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 import java.sql.SQLException;
@@ -23,8 +21,8 @@ public class DAO extends Observable {
     public DAO() {
         try {
             connection = new JdbcConnectionSource(databaseUrl);
-            connection.setUsername("user");
-            connection.setPassword("user");
+            connection.setUsername("root");
+            connection.setPassword("manager");
             daoUsuario = DaoManager.createDao(connection, Usuario.class);
             daoActividad = DaoManager.createDao(connection, Actividad.class);
         } catch (SQLException ex) {
