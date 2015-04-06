@@ -24,7 +24,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         user = new javax.swing.JTextField();
-        pass = new javax.swing.JTextField();
+        pass = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

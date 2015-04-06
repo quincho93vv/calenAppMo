@@ -26,7 +26,7 @@ public class Registro extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         nick = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
-        pass = new javax.swing.JTextField();
+        pass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Registrarse");
