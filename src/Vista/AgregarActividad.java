@@ -5,9 +5,15 @@
  */
 package Vista;
 
+import Modelo.Actividad;
 import Modelo.DAO;
-import java.util.Calendar;
+import Modelo.Usuario;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import javax.swing.JOptionPane;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import javax.swing.border.Border;
 
 /**
  *
@@ -17,18 +23,23 @@ public class AgregarActividad extends javax.swing.JFrame {
 
     private DAO dao;
     private String fecha;
-
+    private Date date;
+    private Usuario user;
+    private Timestamp hora;
     /**
      * Creates new form AgregarActividad
      */
-    public AgregarActividad(DAO dao, String fecha) {
+    public AgregarActividad(DAO dao, Usuario user,Date fecha) {
         this.dao = dao;
-        this.fecha = fecha;
+        this.user = user;
+        this.fecha = fecha.toString();
+        this.date = fecha;
         initComponents();        
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        this.combo_recordar.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Diariamente", "Mensualmente", "Anualmente"}));
+        this.input_nombre.setText("");
+        this.combo_recordar.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Solo una vez","Diariamente", "Mensualmente", "Anualmente"}));
     }
 
     /**
@@ -51,6 +62,10 @@ public class AgregarActividad extends javax.swing.JFrame {
         combo_recordar = new javax.swing.JComboBox();
         btn_agregar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        spinner_horas = new javax.swing.JSpinner();
+        spinner_minutos = new javax.swing.JSpinner();
         lbl_fecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -79,29 +94,51 @@ public class AgregarActividad extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Agregar Actividad");
 
+        jLabel6.setText("Hora");
+
+        jLabel7.setText("Minutos");
+
+        spinner_horas.setModel(new javax.swing.SpinnerNumberModel(0, 0, 24, 1));
+
+        spinner_minutos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 60, 1));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(204, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(206, 206, 206)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(input_nombre)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                            .addComponent(combo_recordar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(input_nombre, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
+                        .addComponent(combo_recordar, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(jLabel3))
+                .addGap(218, 218, 218))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(255, 255, 255)
                         .addComponent(btn_agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(247, 247, 247)
                         .addComponent(jLabel5)))
-                .addContainerGap(233, Short.MAX_VALUE))
+                .addContainerGap(251, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(spinner_horas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(spinner_minutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(155, 155, 155))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,8 +150,15 @@ public class AgregarActividad extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(input_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(49, 49, 49)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinner_horas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinner_minutos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -159,23 +203,25 @@ public class AgregarActividad extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_agregarMouseClicked
+        boolean ok = false;
         String nombre = input_nombre.getText();
+        if(nombre.equals("")){
+            JOptionPane.showMessageDialog(this, "Por favor digite un Nombre para la Actividad");
+            return;
+        }
         // Date fecha = new Date(input_fecha.getText());
         String detalle = input_detalle.getText();
-        String combo = this.combo_recordar.getSelectedItem().toString();
-        int recordatorio = 0;
-        switch (combo) {
-            case "Diariamente":
-                recordatorio = 1;
-                break;
-            case "Mensualmente":
-                recordatorio = 2;
-                break;
-            case "Anualmente":
-                recordatorio = 3;
-                break;
-        }
-        //new Actividad(nombre,fecha,detalle,recordatorio);
+        int recordatorio = this.combo_recordar.getSelectedIndex();
+        int verificarHora = Integer.parseInt(spinner_horas.getValue().toString());
+        String horas = verificarHora < 10? "0"+verificarHora : ""+verificarHora; 
+        int verificarMinutos = Integer.parseInt(spinner_minutos.getValue().toString());
+        String minutos = verificarMinutos < 10? "0"+verificarMinutos : ""+verificarMinutos; 
+        
+        String timeFormat = "2015-04-06 "+horas+":"+minutos+":00";
+        hora = java.sql.Timestamp.valueOf(timeFormat);
+        Actividad nuevaActividad = new Actividad(nombre, date, detalle, recordatorio, user, hora);
+        dao.RegistrarActividad(nuevaActividad);
+        if(ok) this.dispose();
     }//GEN-LAST:event_btn_agregarMouseClicked
 
 
@@ -189,8 +235,12 @@ public class AgregarActividad extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_fecha;
+    private javax.swing.JSpinner spinner_horas;
+    private javax.swing.JSpinner spinner_minutos;
     // End of variables declaration//GEN-END:variables
 }

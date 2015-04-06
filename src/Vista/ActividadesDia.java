@@ -6,8 +6,12 @@
 
 package Vista;
 
+import Modelo.Actividad;
 import Modelo.DAO;
+import Modelo.Usuario;
+import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 
 /**
@@ -17,17 +21,22 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 public class ActividadesDia extends javax.swing.JFrame {
 
     private DAO dao;
-    private String fecha;
+    private Date fecha;
+    private Usuario user;
     /**
      * Creates new form ActividadesDia
      */
-    public ActividadesDia(DAO dao, String fecha) {
+    public ActividadesDia(DAO dao, Usuario user,Date fecha) {
         initComponents();
         this.dao = dao;
         this.fecha=fecha;
+        this.user = user;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        List<Actividad> actividades = dao.getActividadFecha(fecha);
+        for(Actividad a:actividades)
+            System.out.println(a.toString());
     }
 
     /**
@@ -82,7 +91,7 @@ public class ActividadesDia extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        AgregarActividad agregar  = new AgregarActividad(dao,fecha);
+        AgregarActividad agregar  = new AgregarActividad(dao,user,fecha);
     }//GEN-LAST:event_jButton1MouseClicked
 
    

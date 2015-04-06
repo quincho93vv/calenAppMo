@@ -44,5 +44,10 @@ public class Usuario {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" + "nick=" + nick + ", nombre=" + nombre + ", pass=" + pass + '}';
+    }
     
 }

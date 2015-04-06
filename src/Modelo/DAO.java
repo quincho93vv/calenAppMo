@@ -5,6 +5,7 @@ import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Observable;
@@ -21,8 +22,8 @@ public class DAO extends Observable {
     public DAO() {
         try {
             connection = new JdbcConnectionSource(databaseUrl);
-            connection.setUsername("root");
-            connection.setPassword("manager");
+            connection.setUsername("user");
+            connection.setPassword("user");
             daoUsuario = DaoManager.createDao(connection, Usuario.class);
             daoActividad = DaoManager.createDao(connection, Actividad.class);
         } catch (SQLException ex) {
@@ -54,7 +55,7 @@ public class DAO extends Observable {
         try {
             daoActividad.createOrUpdate(a);
         } catch (SQLException ex) {
-            System.out.println("Error al registrar un Usuario.");
+            System.err.println("Error al registrar una Actividad:"+ex.getMessage());
         }
     }
     
@@ -68,6 +69,26 @@ public class DAO extends Observable {
             System.out.println(ex.getMessage());
         }
         return a;
+    }
+    
+    public List<Actividad> getActividadFecha(Date fecha) {
+        List<Actividad> l = null;
+        try {
+            l = daoActividad.queryForEq("fecha", fecha);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return l;
+    }
+    
+    public List<Actividad> getActividades() {
+        List<Actividad> l = null;
+        try {
+            l = daoActividad.queryForAll();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return l;
     }
 
     public Usuario getUsuario(String nick, String pass) {

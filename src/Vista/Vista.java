@@ -1,18 +1,24 @@
 package Vista;
 
 import Modelo.DAO;
+import Modelo.Usuario;
 import java.awt.Color;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class Vista extends javax.swing.JFrame {
     
     private DAO dao=null;
-    public Vista(DAO dao) {
+    private Usuario user;
+    public Vista(DAO dao, Usuario user) {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.dao=dao;        
+        this.user = user;
     }
 
     @SuppressWarnings("unchecked")
@@ -169,43 +175,19 @@ public class Vista extends javax.swing.JFrame {
 
     private void table_calendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_calendarMouseClicked
         // TODO add your handling code here:
-        String obj=null;
+        int dia = 0;
         if (evt.getClickCount() == 1) {
             final javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
             final int row = target.getSelectedRow();
             final int column = target.getSelectedColumn();
-            obj = (String)target.getValueAt(row, column);
+            dia = Integer.parseInt((String)target.getValueAt(row, column));
         }
-        System.out.println("Pressed "+obj);
-        String date = obj + " de " + meses[mes] + " de " + annyo;
-        ActividadesDia actividades = new ActividadesDia(dao, date);
+        System.out.println("Pressed "+dia);
+        String date = annyo + "-" + (mes+1) + "-" + dia ;
+        Date fecha = java.sql.Date.valueOf(date);
+        ActividadesDia actividades = new ActividadesDia(dao, user, fecha);
     }//GEN-LAST:event_table_calendarMouseClicked
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Vista.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Vista(new DAO()).setVisible(true);
-            }
-        });
-    }
 
     String[] dias = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
     String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", " ;Septiembre", "Octubre", "Noviembre", "Diciemrbre"};
@@ -264,6 +246,7 @@ public class Vista extends javax.swing.JFrame {
         }
         return days;
     }
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

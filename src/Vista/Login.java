@@ -122,7 +122,7 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Usuario u = dao.getUsuario(user.getText(), pass.getText());
         if(u != null){
-            Vista v = new Vista(dao);
+            Vista v = new Vista(dao,u);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Usuario No Registrado o Incorrecto");
