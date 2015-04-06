@@ -23,3 +23,5 @@ Create Table Actividades(
 	Constraint PKActividad primary key(nombre, usuario),
 	Constraint FKActividad foreign key(usuario) references Usuarios(nick)
 );
+
+ALTER TABLE actividades MODIFY hora timestamp;
