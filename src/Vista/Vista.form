@@ -121,11 +121,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mes_lessActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_mes_plus">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_mes_plusActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="label_mes_anyo">
               <Properties>
@@ -139,9 +145,11 @@
                 <Component class="javax.swing.JTable" name="jTable1">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new javax.swing.table.DefaultTableModel(setModel(),dias)" type="code"/>
+                      <Connection code="new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias)" type="code"/>
                     </Property>
-                    <Property name="dragEnabled" type="boolean" value="true"/>
+                    <Property name="dragEnabled" type="boolean" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="false" type="code"/>
+                    </Property>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTable1.setGridColor(Color.black);&#xa;    jTable1.setShowGrid(true);"/>
@@ -153,11 +161,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="&lt;&lt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_anyo_lessActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_anyo_plus">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_anyo_plusActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
