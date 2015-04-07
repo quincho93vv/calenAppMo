@@ -1,24 +1,29 @@
 package Vista;
 
+import Modelo.Actividad;
 import Modelo.DAO;
 import Modelo.Usuario;
+import Modelo.Utiles;
 import java.awt.Color;
 import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Vista extends javax.swing.JFrame {
     
     private DAO dao=null;
     private Usuario user;
+    private List<Actividad> actividades;
+    
     public Vista(DAO dao, Usuario user) {
+        this.dao=dao;        
+        this.user = user;
+        this.actividades=dao.getActividades(user.getNick());
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        this.dao=dao;        
-        this.user = user;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +32,8 @@ public class Vista extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         panel_actividades = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla_actividades_general = new javax.swing.JTable();
         panel_calendario = new javax.swing.JPanel();
         btn_mes_less = new javax.swing.JButton();
         btn_mes_plus = new javax.swing.JButton();
@@ -41,15 +48,27 @@ public class Vista extends javax.swing.JFrame {
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
 
+        tabla_actividades_general.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades),Utiles.getHead()));
+        tabla_actividades_general.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        tabla_actividades_general.setRowSelectionAllowed(false);
+        tabla_actividades_general.setShowHorizontalLines(false);
+        jScrollPane2.setViewportView(tabla_actividades_general);
+
         javax.swing.GroupLayout panel_actividadesLayout = new javax.swing.GroupLayout(panel_actividades);
         panel_actividades.setLayout(panel_actividadesLayout);
         panel_actividadesLayout.setHorizontalGroup(
             panel_actividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 706, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_actividadesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panel_actividadesLayout.setVerticalGroup(
             panel_actividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 453, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_actividadesLayout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Actividades pendientes", panel_actividades);
@@ -255,10 +274,12 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton btn_mes_less;
     private javax.swing.JButton btn_mes_plus;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel label_mes_anyo;
     private javax.swing.JPanel panel_actividades;
     private javax.swing.JPanel panel_calendario;
+    private javax.swing.JTable tabla_actividades_general;
     private javax.swing.JTable table_calendar;
     // End of variables declaration//GEN-END:variables
 }

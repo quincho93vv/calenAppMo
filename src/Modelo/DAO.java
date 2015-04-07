@@ -79,6 +79,7 @@ public class DAO extends Observable {
             where.eq("usuario", nick);
             where.and();
             where.eq("fecha", fecha);
+            queryBuilder.orderBy("Hora", true);
             l = queryBuilder.query();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -86,10 +87,15 @@ public class DAO extends Observable {
         return l;
     }
     
-    public List<Actividad> getActividades() {
+    public List<Actividad> getActividades(String nick) {
         List<Actividad> l = null;
         try {
-            l = daoActividad.queryForAll();
+            QueryBuilder<Actividad, String> queryBuilder = daoActividad.queryBuilder();
+            Where where = queryBuilder.where();
+            where.eq("usuario", nick);
+            queryBuilder.orderBy("Fecha", true);
+            queryBuilder.orderBy("Hora", true);
+            l = queryBuilder.query();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
