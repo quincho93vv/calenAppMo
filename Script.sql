@@ -25,3 +25,23 @@ Create Table Actividades(
 	Constraint FKActividad foreign key(usuario) references Usuarios(nick)
 );
 
+-- Esto no lo tenemos que agregar a la base luego, ya que tomaremos los contactos propios del telefono.
+
+Create Table Contactos{
+	nombre varchar(30),
+	telefono varchar(10),
+	email varchar(30),
+	Constraint PKContacto primary key(nombre, telefono)
+}
+
+Create Table ActividadContactos{
+	nombreContacto varchar(30),
+	telefonoContacto varchar(10),
+	nombreActividad varchar(30),
+	nombreUsuario varchar(30),
+	Constraint PKActividadContactos primary key(nombreContacto, telefonoContacto, nombreActividad, nombreUsuario),
+	Constraint FKActividadContactos1 foreign key(nombreContacto) references Contactos(nombre),
+	Constraint FKActividadContactos2 foreign key(telefonoContacto) references Contactos(telefono),
+	Constraint FKActividadContactos3 foreign key(nombreActividad) references Actividades(nombre),
+	Constraint FKActividadContactos4 foreign key(nombreUsuario) references Actividades(usuario)
+}
