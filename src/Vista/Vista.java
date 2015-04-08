@@ -23,7 +23,7 @@ public class Vista extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        
+        tabla_actividades_general.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades),Utiles.getHead()));
     }
 
     @SuppressWarnings("unchecked")
@@ -47,8 +47,10 @@ public class Vista extends javax.swing.JFrame {
         setTitle("Calendar");
 
         jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        jTabbedPane1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        tabla_actividades_general.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades),Utiles.getHead()));
+        panel_actividades.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+
         tabla_actividades_general.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tabla_actividades_general.setRowSelectionAllowed(false);
         tabla_actividades_general.setShowHorizontalLines(false);
@@ -60,7 +62,7 @@ public class Vista extends javax.swing.JFrame {
             panel_actividadesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_actividadesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panel_actividadesLayout.setVerticalGroup(
@@ -72,6 +74,8 @@ public class Vista extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Actividades pendientes", panel_actividades);
+
+        panel_calendario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         btn_mes_less.setText("<");
         btn_mes_less.addActionListener(new java.awt.event.ActionListener() {
@@ -133,7 +137,7 @@ public class Vista extends javax.swing.JFrame {
             .addGroup(panel_calendarioLayout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         panel_calendarioLayout.setVerticalGroup(
             panel_calendarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -169,31 +173,26 @@ public class Vista extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_mes_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_plusActionPerformed
-        // TODO add your handling code here:
         mes++;
         table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_mes_plusActionPerformed
 
     private void btn_anyo_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_lessActionPerformed
-        // TODO add your handling code here:
         annyo--;
         table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_anyo_lessActionPerformed
 
     private void btn_mes_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_lessActionPerformed
-        // TODO add your handling code here:
         mes--;
         table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_mes_lessActionPerformed
 
     private void btn_anyo_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_plusActionPerformed
-        // TODO add your handling code here:
         annyo++;
         table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
     }//GEN-LAST:event_btn_anyo_plusActionPerformed
 
     private void table_calendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_calendarMouseClicked
-        // TODO add your handling code here:
         int dia = 0;
         if (evt.getClickCount() == 1) {
             final javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
@@ -201,7 +200,6 @@ public class Vista extends javax.swing.JFrame {
             final int column = target.getSelectedColumn();
             dia = Integer.parseInt((String)target.getValueAt(row, column));
         }
-        System.out.println("Pressed "+dia);
         String date = annyo + "-" + (mes+1) + "-" + dia ;
         Date fecha = java.sql.Date.valueOf(date);
         ActividadesDia actividades = new ActividadesDia(dao, user, fecha);
@@ -266,8 +264,6 @@ public class Vista extends javax.swing.JFrame {
         return days;
     }
     
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_anyo_less;
     private javax.swing.JButton btn_anyo_plus;

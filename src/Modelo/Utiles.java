@@ -1,21 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
-import java.awt.Component;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableCellRenderer;
 
-/**
- *
- * @author Alonso
- */
 public class Utiles {
-    
     private static String[] head = {"Hora", "Actividad", "Detalle", "Recordatorio", "Contacto"};
     private static String[] horas = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am",
         "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm",
@@ -46,23 +34,14 @@ public class Utiles {
         return activities;
     }
 
-    /**
-     * @return the head
-     */
     public static String[] getHead() {
         return head;
     }
 
-    /**
-     * @return the horas
-     */
     public static String[] getHoras() {
         return horas;
     }
 
-    /**
-     * @return the recordatorio
-     */
     public static String[] getRecordatorio() {
         return recordatorio;
     }
