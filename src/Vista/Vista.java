@@ -6,21 +6,26 @@ import Modelo.Usuario;
 import Modelo.Utiles;
 import java.awt.Color;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JOptionPane;
 
 public class Vista extends javax.swing.JFrame {
-    
-    private DAO dao=null;
+
+    private DAO dao = null;
     private Usuario user;
     private List<Actividad> actividades;
-    
+
     public Vista(DAO dao, Usuario user) {
-        this.dao=dao;        
+        this.dao = dao;
         this.user = user;
-        this.actividades=dao.getActividades(user.getNick());
+        this.actividades = dao.getActividades(user.getNick());
         initComponents();
+        comenzar();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -174,37 +179,36 @@ public class Vista extends javax.swing.JFrame {
 
     private void btn_mes_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_plusActionPerformed
         mes++;
-        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo), dias));
     }//GEN-LAST:event_btn_mes_plusActionPerformed
 
     private void btn_anyo_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_lessActionPerformed
         annyo--;
-        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo), dias));
     }//GEN-LAST:event_btn_anyo_lessActionPerformed
 
     private void btn_mes_lessActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_mes_lessActionPerformed
         mes--;
-        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo), dias));
     }//GEN-LAST:event_btn_mes_lessActionPerformed
 
     private void btn_anyo_plusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_anyo_plusActionPerformed
         annyo++;
-        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo),dias));
+        table_calendar.setModel(new javax.swing.table.DefaultTableModel(setCalendar(mes, annyo), dias));
     }//GEN-LAST:event_btn_anyo_plusActionPerformed
 
     private void table_calendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_calendarMouseClicked
         int dia = 0;
         if (evt.getClickCount() == 1) {
-            final javax.swing.JTable target = (javax.swing.JTable)evt.getSource();
+            final javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
             final int row = target.getSelectedRow();
             final int column = target.getSelectedColumn();
-            dia = Integer.parseInt((String)target.getValueAt(row, column));
+            dia = Integer.parseInt((String) target.getValueAt(row, column));
         }
-        String date = annyo + "-" + (mes+1) + "-" + dia ;
+        String date = annyo + "-" + (mes + 1) + "-" + dia;
         Date fecha = java.sql.Date.valueOf(date);
         ActividadesDia actividades = new ActividadesDia(dao, user, fecha);
     }//GEN-LAST:event_table_calendarMouseClicked
-
 
     String[] dias = {"Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"};
     String[] meses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", " ;Septiembre", "Octubre", "Noviembre", "Diciemrbre"};
@@ -213,6 +217,30 @@ public class Vista extends javax.swing.JFrame {
     Calendar fecha = new GregorianCalendar();
     int annyo = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH);
+
+    TimerTask timerTask = new TimerTask() { //Asigna la tarea para ejecutar el metodo cada x tiempo
+        @Override
+        public void run() {
+            java.util.GregorianCalendar cal = new java.util.GregorianCalendar();
+            String timeFormat = "" + cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH)+1) + "-" + cal.get(Calendar.DAY_OF_MONTH) + " " + cal.getTime().getHours() + ":" + cal.getTime().getMinutes() + ":00";
+            Timestamp hora = java.sql.Timestamp.valueOf(timeFormat);
+            if (!actividades.isEmpty()) {
+                for (int j = 0; j < actividades.size(); j++) {
+                    Actividad a = actividades.get(j);
+                    if (a.getHora() == hora) {
+                        JOptionPane.showConfirmDialog(null, "Evento\n\n" + a.getNombre() + "\n" + a.getDetalle(), "Alarma", JOptionPane.WARNING_MESSAGE);
+                    }else{
+                        JOptionPane.showConfirmDialog(null, "Error con\n\n" + a.getNombre() + "\n" + a.getDetalle(), "Alarma", JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        }
+    };
+
+    private void comenzar() { //inicia el proceso de ejecucion cada tiempo establecido
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 2000, 1000); //cada segundo repite
+    }
 
     public String[][] setCalendar(int mes, int anyo) {
         for (int i = 0; i < 6; ++i) {
@@ -223,7 +251,6 @@ public class Vista extends javax.swing.JFrame {
         java.util.GregorianCalendar cal = new java.util.GregorianCalendar();
         cal.set(anyo, mes, 1);
         int offset = cal.get(java.util.GregorianCalendar.DAY_OF_WEEK) - 1;
-        //offset += 7;
         int num = daysInMonth(mes, anyo);
         for (int i = 0; i < num; ++i) {
             calendario[offset / 7][offset % 7] = Integer.toString(i + 1);
@@ -247,7 +274,7 @@ public class Vista extends javax.swing.JFrame {
         }
         return days;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_anyo_less;
     private javax.swing.JButton btn_anyo_plus;
