@@ -10,7 +10,7 @@ public class Utiles {
         "4:00pm", "5:00pm", "6:00pm", "7:00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm",};
     private static String[] recordatorio = {"Diario", "Mensual", "Anual"};
     
-   public static String[][] setModelo(List<Actividad> actividades) {
+   public static String[][] setModelo(List<Actividad> actividades,boolean c) {
         String[][] activities = new String[actividades.size() * 2][5];
 
         for (int i = 0; i < (actividades.size() * 2); ++i) {
@@ -28,7 +28,7 @@ public class Utiles {
                 activities[i][3] = getRecordatorio()[a.getTipo() - 1];
                 activities[i][4] = a.getUser().getNick();
             }
-        } else {
+        } else if(c){
             JOptionPane.showMessageDialog(null, "No hay actividades para este dia!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
         }
         return activities;

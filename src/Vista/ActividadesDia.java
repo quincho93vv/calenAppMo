@@ -50,7 +50,7 @@ public class ActividadesDia extends javax.swing.JFrame {
             }
         });
 
-        panel_actividades.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades), Utiles.getHead()));
+        panel_actividades.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades,true), Utiles.getHead()));
         panel_actividades.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         panel_actividades.setRowSelectionAllowed(false);
         panel_actividades.setShowHorizontalLines(false);

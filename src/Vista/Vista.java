@@ -23,7 +23,6 @@ public class Vista extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        tabla_actividades_general.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades),Utiles.getHead()));
     }
 
     @SuppressWarnings("unchecked")
@@ -51,6 +50,7 @@ public class Vista extends javax.swing.JFrame {
 
         panel_actividades.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
+        tabla_actividades_general.setModel(new javax.swing.table.DefaultTableModel(Utiles.setModelo(actividades,false), Utiles.getHead()));
         tabla_actividades_general.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tabla_actividades_general.setRowSelectionAllowed(false);
         tabla_actividades_general.setShowHorizontalLines(false);
@@ -213,22 +213,6 @@ public class Vista extends javax.swing.JFrame {
     Calendar fecha = new GregorianCalendar();
     int annyo = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH);
-
-    public int getFilas() {
-        return 6;
-    }
-
-    public int getColumnas() {
-        return 7;
-    }
-
-    public Object getValueAt(int fila, int col) {
-        return calendario[fila][col];
-    }
-
-    public void setValueAt(Object v, int fila, int col) {
-        calendario[fila][col] = (String) v;
-    }
 
     public String[][] setCalendar(int mes, int anyo) {
         for (int i = 0; i < 6; ++i) {
