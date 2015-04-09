@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 @DatabaseTable(tableName = "Actividades")
 public class Actividad {
@@ -20,6 +21,7 @@ public class Actividad {
     @DatabaseField(canBeNull = false, foreign = true, columnName = "Usuario")
     private Usuario user;
     
+    private Calendar calen;
     
     public Actividad(){}
 
@@ -30,6 +32,7 @@ public class Actividad {
         this.detalle = detalle;
         this.tipo = tipo;
         this.user = user;
+        calen = Calendar.getInstance();
     }
 
     public String getNombre() {

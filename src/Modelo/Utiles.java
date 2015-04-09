@@ -8,7 +8,7 @@ public class Utiles {
     private static String[] horas = {"12:00am", "1:00am", "2:00am", "3:00am", "4:00am", "5:00am", "6:00am", "7:00am",
         "8:00am", "9:00am", "10:00am", "11:00am", "12:00pm", "1:00pm", "2:00pm", "3:00pm",
         "4:00pm", "5:00pm", "6:00pm", "7:00pm", "8:00pm", "9:00pm", "10:00pm", "11:00pm",};
-    private static String[] recordatorio = {"Diario", "Mensual", "Anual"};
+    private static String[] recordatorio = {"Solamente una vez","Diario", "Mensual", "Anual"};
     
    public static String[][] setModelo(List<Actividad> actividades,boolean c) {
         String[][] activities = new String[actividades.size() * 2][5];
@@ -25,7 +25,7 @@ public class Utiles {
                 activities[i][0] = getHoras()[a.getHora().getHours()];
                 activities[i][1] = a.getNombre();
                 activities[i][2] = a.getDetalle();
-                activities[i][3] = getRecordatorio()[a.getTipo() - 1];
+                activities[i][3] = getRecordatorio()[a.getTipo()];
                 activities[i][4] = a.getUser().getNick();
             }
         } else if(c){

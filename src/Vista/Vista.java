@@ -2,6 +2,7 @@ package Vista;
 
 import Modelo.Actividad;
 import Modelo.DAO;
+import Modelo.ReportGenerator;
 import Modelo.Usuario;
 import Modelo.Utiles;
 import java.awt.Color;
@@ -15,7 +16,6 @@ import java.util.TimerTask;
 import javax.swing.JOptionPane;
 
 public class Vista extends javax.swing.JFrame {
-
     private DAO dao = null;
     private Usuario user;
     private List<Actividad> actividades;
@@ -25,7 +25,7 @@ public class Vista extends javax.swing.JFrame {
         this.user = user;
         this.actividades = dao.getActividades(user.getNick());
         initComponents();
-        comenzar();
+        ReportGenerator.comenzar(actividades);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -236,12 +236,7 @@ public class Vista extends javax.swing.JFrame {
             }
         }
     };
-
-    private void comenzar() { //inicia el proceso de ejecucion cada tiempo establecido
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 2000, 1000); //cada segundo repite
-    }
-
+    
     public String[][] setCalendar(int mes, int anyo) {
         for (int i = 0; i < 6; ++i) {
             for (int j = 0; j < 7; ++j) {
